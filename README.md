@@ -21,6 +21,7 @@ Built in Go for performance and simplicity, llama-swap has zero dependencies and
   - `v1/embeddings`
   - `v1/audio/speech` ([#36](https://github.com/mostlygeek/llama-swap/issues/36))
   - `v1/audio/transcriptions` ([docs](https://github.com/mostlygeek/llama-swap/issues/41#issuecomment-2722637867))
+  - `v1/responses` - for agentic workflows with reasoning and tool calls ([docs](https://platform.openai.com/docs/api-reference/responses))
 - ✅ Anthropic API supported endpoints:
   - `v1/messages`
 - ✅ llama-server (llama.cpp) supported endpoints
@@ -194,6 +195,13 @@ location /api/events {
 
 # Streaming chat completions (stream=true)
 location /v1/chat/completions {
+    proxy_pass http://your-llama-swap-backend;
+    proxy_buffering off;
+    proxy_cache off;
+}
+
+# Streaming responses API (stream=true)
+location /v1/responses {
     proxy_pass http://your-llama-swap-backend;
     proxy_buffering off;
     proxy_cache off;
