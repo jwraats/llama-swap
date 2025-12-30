@@ -512,7 +512,7 @@ func (p *Process) ProxyRequest(w http.ResponseWriter, r *http.Request) {
 		isStreaming, _ := r.Context().Value(proxyCtxKey("streaming")).(bool)
 
 		// PR #417 (no support for anthropic v1/messages yet)
-		isChatCompletions := strings.HasPrefix(r.URL.Path, "/v1/chat/completions")
+		isChatCompletions := strings.HasPrefix(r.URL.Path, "/v1/chat/completions") || strings.HasPrefix(r.URL.Path, "/v1/responses")
 		if p.config.SendLoadingState != nil && *p.config.SendLoadingState && isStreaming && isChatCompletions {
 			srw = newStatusResponseWriter(p, w)
 			go srw.statusUpdates(swapCtx)
